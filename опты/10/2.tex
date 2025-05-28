@@ -1,0 +1,238 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{geometry}
+\geometry{left=2cm, right=2cm, top=2cm, bottom=2cm}
+
+\title{}
+\author{}
+\date{}
+
+\begin{document}
+	
+	\maketitle
+	
+	\section*{Основная часть}
+	
+	\subsection*{Задача 1.}
+	
+	\subsubsection*{1) $f(x)=\max\{|x|,x^2\}$, $x\in\mathbb{R}$}
+	
+	Заметим, что
+	\[
+	\max\{|x|,x^2\}=\begin{cases}
+		|x|, & |x|\le1,\\[1mm]
+		x^2, & |x|\ge1.
+	\end{cases}
+	\]
+	При поиске супремума разбиваем задачу на два региона.
+	
+	\textbf{Регион 1: $|x|\le1$.}  
+	При $x\ge0$ имеем
+	\[
+	xy - f(x) = xy - x = x(y-1).
+	\]
+	Максимум по $x\in[0,1]$ равен:
+	\[
+	\begin{cases}
+		y-1, & \text{если } y\ge1,\\[1mm]
+		0, & \text{если } y<1.
+	\end{cases}
+	\]
+	При $x<0$, поскольку $|x|=-x$, получаем:
+	\[
+	xy - f(x) = xy - (-x)= x(y+1).
+	\]
+	Максимум по $x\in[-1,0]$ равен:
+	\[
+	\begin{cases}
+		-y-1, & \text{если } y\le -1,\\[1mm]
+		0, & \text{если } y>-1.
+	\end{cases}
+	\]
+	
+	\textbf{Регион 2: $|x|\ge1$.}  
+	Здесь $f(x)=x^2$ и функция
+	\[
+	\varphi(x)=xy-x^2
+	\]
+	есть квадратичная, и её оптимум по $\mathbb{R}$ достигается при $x=\frac{y}{2}$. При этом условие $|x|\ge1$ выполнится, если $|y|\ge2$. Тогда
+	\[
+	\varphi\left(\frac{y}{2}\right)=\frac{y^2}{2}-\frac{y^2}{4}=\frac{y^2}{4}.
+	\]
+	Если $|y|<2$, оптимум достигается на границе: при $y\ge0$ на $x=1$ даётся значение $y-1$, а при $y<0$ на $x=-1$ --- значение $-y-1$.
+	
+	\textbf{Итог.} Сопоставляя оба региона, получаем окончательный ответ:
+	\[
+	f^*(y)=
+	\begin{cases}
+		\frac{y^2}{4}, & |y|\ge2,\\[1mm]
+		y-1, & 1\le y<2,\\[1mm]
+		0, & |y|<1,\\[1mm]
+		-y-1, & -2<y\le -1.
+	\end{cases}
+	\]
+	При проверке на стыках видно, что функция непрерывна.
+	
+	\vspace{2mm}
+	
+	\subsubsection*{2) $f(x)=(|x|+1)\ln(|x|+1)$, $x\in\mathbb{R}$}
+	
+	Заметим, что функция чётная, поэтому можно положить $t=|x|\ge0$. Тогда
+	\[
+	f(x)= (t+1)\ln(t+1),
+	\]
+	а сопряжённая функция определяется как
+	\[
+	f^*(y)=\sup_{t\ge0}\Big\{t|y|-(t+1)\ln(t+1)\Big\}.
+	\]
+	Обозначим
+	\[
+	\phi(t)= t|y|-(t+1)\ln(t+1).
+	\]
+	Находим оптимальную точку. Вычислим производную:
+	\[
+	\phi'(t)=|y|-\ln(t+1)-1.
+	\]
+	Приравнивая к нулю,
+	\[
+	\ln(t+1)=|y|-1 \quad \Longrightarrow \quad t+1=\exp(|y|-1),\quad t=\exp(|y|-1)-1.
+	\]
+	Заметим, что для $|y|<1$ при $t=0$ получаем $\phi(0)= -\ln1=0$, а производная в нуле равна $\phi'(0)=|y|-1<0$, поэтому максимум достигается при $t=0$ и равен 0.
+	
+	Таким образом, окончательный результат:
+	\[
+	f^*(y)=
+	\begin{cases}
+		0, & |y|<1,\\[1mm]
+		\exp(|y|-1)-|y|, & |y|\ge1.
+	\end{cases}
+	\]
+	
+	\subsubsection*{3) $f(x)=(\|x\|+1)\ln(\|x\|+1)-\|x\|$, $x\in\mathbb{R}^d$}
+	
+	Так как функция зависит только от нормы, оптимизация по $x\in\mathbb{R}^d$ сводится к одномерной задаче по $t=\|x\|\ge0$. При выборе направления оптимально брать $x$ коллинеарным с $y$, тогда
+	\[
+	\langle x,y\rangle = t\|y\|.
+	\]
+	Определяем функцию
+	\[
+	\psi(t)= t\|y\| - \Big[(t+1)\ln(t+1)-t\Big] = t(\|y\|+1) - (t+1)\ln(t+1).
+	\]
+	Найдём оптимальную точку:
+	\[
+	\psi'(t)=\|y\|+1 - \big[\ln(t+1)+1\big] = \|y\|-\ln(t+1).
+	\]
+	Приравнивая к нулю, получаем:
+	\[
+	\ln(t+1)=\|y\| \quad \Longrightarrow \quad t+1=\exp(\|y\|),\quad t=\exp(\|y\|)-1.
+	\]
+	Подставляем в $\psi(t)$:
+	\[
+	\psi\Big(\exp(\|y\|)-1\Big)= (\exp(\|y\|)-1)(\|y\|+1) - \exp(\|y\|)\|y\| 
+	=\exp(\|y\|)-\|y\|-1.
+	\]
+	Таким образом, сопряжённая функция имеет вид:
+	\[
+	f^*(y)=\exp(\|y\|)-\|y\|-1.
+	\]
+	
+	\vspace{3mm}
+	
+	\subsection*{Задача 2.}
+	
+	Пусть
+	\[
+	f(x)=\cosh x -1 = \frac{e^x+e^{-x}}{2}-1,\quad x\in\mathbb{R}.
+	\]
+	Найдём сопряжённую функцию
+	\[
+	f^*(y)=\sup_{x\in\mathbb{R}}\Big\{xy - (\cosh x-1)\Big\}.
+	\]
+	Так как $f$ строго выпуклая и дифференцируемая, оптимальная точка определяется условием:
+	\[
+	\frac{d}{dx}\Bigl(xy-\cosh x+1\Bigr)= y-\sinh x=0\quad \Longrightarrow\quad x=\operatorname{arcsinh}(y).
+	\]
+	Подставляя, получаем:
+	\[
+	f^*(y)=y\operatorname{arcsinh}(y)-\cosh(\operatorname{arcsinh}(y))+1.
+	\]
+	Используем известное равенство
+	\[
+	\cosh(\operatorname{arcsinh}(y))=\sqrt{1+y^2},
+	\]
+	и окончательно получаем:
+	\[
+	f^*(y)=y\operatorname{arcsinh}(y)-\sqrt{1+y^2}+1.
+	\]
+	Заметим, что так как $f$ --- замкнутая выпуклая функция, то её двойственное сопряжение совпадает с $f$, то есть
+	\[
+	f^{**}(x)=f(x)=\cosh x-1.
+	\]
+	
+	\section*{Дополнительная часть}
+	
+	\subsection*{Задача 1.}
+	
+	Здесь принято, что функция
+	\[
+	f(x)=\sum_{i=1}^d\log x_i
+	\]
+	определена на множестве $x=(x_1,\dots,x_d)$, где $x_i>0$, $i=1,\dots,d$. Тогда сопряжённая функция определяется как
+	\[
+	f^*(y)=\sup_{x>0}\left\{\langle y,x\rangle-\sum_{i=1}^d\log x_i\right\}.
+	\]
+	Благодаря аддитивности оптимизация разбивается по координатам. Для каждой координаты рассматриваем задачу
+	\[
+	\sup_{x>0}\{y_i x-\log x\}.
+	\]
+	Для фиксированного $i$ оптимум находится по условию первого порядка:
+	\[
+	\frac{d}{dx}\Bigl(y_i x-\log x\Bigr)=y_i-\frac{1}{x}=0\quad\Longrightarrow\quad x=\frac{1}{y_i},
+	\]
+	при условии, что $y_i>0$. Подставляя обратно,
+	\[
+	y_i\cdot \frac{1}{y_i}-\log\frac{1}{y_i}=1+\log y_i.
+	\]
+	Если хотя бы для одного $i$ условие $y_i>0$ не выполнено, супремум равен $+\infty$. Таким образом,
+	\[
+	f^*(y)=
+	\begin{cases}
+		\displaystyle \sum_{i=1}^d\Bigl(1+\log y_i\Bigr), & \text{если } y_i>0\ \forall i,\\[2mm]
+		+\infty, & \text{иначе.}
+	\end{cases}
+	\]
+	
+	\subsection*{Задача 2.}
+	
+	\medskip
+	
+	\textbf{1) Если $f(x)=\alpha\, g(x)$, $\alpha>0$,} то
+	\[
+	f^*(y)=\sup_{x}\{ \langle y,x\rangle-\alpha\, g(x)\}
+	=\alpha\,\sup_{x}\Bigl\{\Bigl\langle \frac{y}{\alpha},x\Bigr\rangle-g(x)\Bigr\}
+	=\alpha\, g^*\Bigl(\frac{y}{\alpha}\Bigr).
+	\]
+	
+	\medskip
+	
+	\textbf{2) Если $f(x)=g(Ax)$,} где $A\in S_d^{++}$ (матрица симметричная, положительно определённая), делаем замену $u=Ax$. Тогда $x=A^{-1}u$, и
+	\[
+	\langle y,x\rangle=\langle y, A^{-1}u\rangle=\langle A^{-1}y,u\rangle.
+	\]
+	Следовательно,
+	\[
+	f^*(y)=\sup_{u}\Bigl\{\langle A^{-1}y,u\rangle-g(u)\Bigr\}=g^*(A^{-1}y).
+	\]
+	
+	\medskip
+	
+	\textbf{3) Если $f(x)=\inf\{g(u)+h(v):\, u+v=x\}$,} то по известному результату сопряжение инфимум-суммы даёт
+	\[
+	f^*(y)=g^*(y)+h^*(y).
+	\]
+	
+	\bigskip
+
+\end{document}

@@ -1,0 +1,153 @@
+\documentclass[12pt]{article}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{amsmath,amssymb,amsthm}
+
+\begin{document}
+	\title{ДЗ8
+	}
+	\author{}
+	\date{}
+	\maketitle
+	
+	\section*{Основная часть}
+	
+	\subsection*{Задача 1}
+	Пусть
+	\[
+	f(x)=\max\{-x,\;x,\;x^2\}.
+	\]
+	Тогда
+	\[
+	\partial f(x)=
+	\begin{cases}
+		\{2x\},&|x|>1,\\
+		\{-1\},&-1<x<0,\\
+		\{1\},&0<x<1,\\
+		[-1,1],&x=0,\\
+		[-2,-1],&x=-1,\\
+		[1,2],&x=1.
+	\end{cases}
+	\]
+	\textit{Решение:}
+	Для $|x|>1$, $f(x)=x^2$, и $\partial f(x) = \{2x\}$.
+	Для $-1<x<0$, $f(x)=-x$, и $\partial f(x) = \{-1\}$.
+	Для $0<x<1$, $f(x)=x$, и $\partial f(x) = \{1\}$.
+	В точке $x=0$, $f(0)=0$, и $f(x) = \max\{f_1(x), f_2(x), f_3(x)\}$ где $f_1(x)=-x, f_2(x)=x, f_3(x)=x^2$. Тогда $\partial f_1(0) = \{-1\}, \partial f_2(0) = \{1\}, \partial f_3(0) = \{0\}$. Следовательно, $\partial f(0) = \operatorname{conv}(\{-1, 1, 0\}) = [-1, 1]$.
+	В точке $x=-1$, $f(-1)=1$, и $f(x) = \max\{-x, x^2\}$ в окрестности этой точки. Тогда $\partial (-x)|_{x=-1} = \{-1\}$ и $\partial (x^2)|_{x=-1} = \{-2\}$. Следовательно, $\partial f(-1) = \operatorname{conv}(\{-1, -2\}) = [-2, -1]$.
+	В точке $x=1$, $f(1)=1$, и $f(x) = \max\{x, x^2\}$ в окрестности этой точки. Тогда $\partial (x)|_{x=1} = \{1\}$ и $\partial (x^2)|_{x=1} = \{2\}$. Следовательно, $\partial f(1) = \operatorname{conv}(\{1, 2\}) = [1, 2]$.
+	
+	\subsection*{Задача 2}
+	Для ReLU-функции $f(x)=\max\{0,x\}$ имеем
+	\[
+	\partial f(x)=
+	\begin{cases}
+		\{0\},&x<0,\\
+		[0,1],&x=0,\\
+		\{1\},&x>0.
+	\end{cases}
+	\]
+	\textit{Решение:}
+	Для $x<0$, $f(x)=0$, и $\partial f(x) = \{0\}$.
+	Для $x>0$, $f(x)=x$, и $\partial f(x) = \{1\}$.
+	В точке $x=0$, $f(0)=0$, и $f(x) = \max\{f_1(x), f_2(x)\}$ где $f_1(x)=0, f_2(x)=x$. Тогда $\partial f_1(0) = \{0\}, \partial f_2(0) = \{1\}$. Следовательно, $\partial f(0) = \operatorname{conv}(\{0, 1\}) = [0, 1]$.
+	
+	\subsection*{Задача 3}
+	Поскольку
+	\[
+	\partial f(0)=\{g\mid\langle g,x\rangle\le\|x\|_\infty\ \forall x\}
+	=\{g\mid\|g\|_1\le1\},
+	\]
+	а единичный шар нормы $\|\cdot\|_1$ есть выпуклая оболочка $\{\pm e_i\}_{i=1}^n$, то
+	\[
+	\partial f(0)=\operatorname{conv}\{\pm e_1,\dots,\pm e_n\}.
+	\]
+	\textit{Решение:}
+	Функция $f(x) = \|x\|_\infty = \max_{1 \le i \le n} |x_i|$. Субдифференциал выпуклой функции $f$ в точке $x_0$ определяется как $\partial f(x_0) = \{g \mid f(x) \ge f(x_0) + \langle g, x - x_0 \rangle \ \forall x\}$. В точке $x_0 = 0$, $f(0) = 0$, поэтому $\partial f(0) = \{g \mid \|x\|_\infty \ge \langle g, x \rangle \ \forall x\}$. Это эквивалентно $\{g \mid \langle g, x \rangle \le \|x\|_\infty \ \forall x\}$. Можно показать, что это множество совпадает с $\{g \mid \|g\|_1 \le 1\}$. Единичный шар по норме $\ell_1$ является выпуклой оболочкой множества $\{\pm e_1, \dots, \pm e_n\}$, где $e_i$ - стандартные базисные векторы.
+	
+	\subsection*{Задача 4}
+	Для
+	\[
+	f(x)=|x-2|+|x+2|+|x-1|
+	\]
+	получаем
+	\[
+	\partial f(x)=
+	\begin{cases}
+		\{-3\},&x<-2,\\
+		[-3,-1],&x=-2,\\
+		\{-1\},&-2<x<1,\\
+		[-1,1],&x=1,\\
+		\{1\},&1<x<2,\\
+		[1,3],&x=2,\\
+		\{3\},&x>2.
+	\end{cases}
+	\]
+	\textit{Решение:}
+	Функция $f(x)$ является суммой выпуклых функций, поэтому ее субдифференциал является суммой субдифференциалов.
+	$\partial |x-2| = \begin{cases} \{-1\}, & x<2 \\ [-1, 1], & x=2 \\ \{1\}, & x>2 \end{cases}$
+	$\partial |x+2| = \begin{cases} \{-1\}, & x<-2 \\ [-1, 1], & x=-2 \\ \{1\}, & x>-2 \end{cases}$
+	$\partial |x-1| = \begin{cases} \{-1\}, & x<1 \\ [-1, 1], & x=1 \\ \{1\}, & x>1 \end{cases}$
+	Рассматривая различные интервалы для $x$, получаем указанный результат.
+	
+	\subsection*{Задача 5}
+	Для
+	\[
+	f(x)=\exp(\|Ax-b\|_p)
+	\]
+	по правилу цепочки
+	\[
+	\partial f(x)
+	=\exp(\|Ax-b\|_p)\,A^T\partial\|Ax-b\|_p
+	=\exp(\|Ax-b\|_p)\,A^T\{v:\|v\|_q\le1,\;\langle v,Ax-b\rangle=\|Ax-b\|_p\}.
+	\]
+	\textit{Решение:}
+	Пусть $g(x) = \|Ax-b\|_p$ и $h(y) = e^y$. Тогда $f(x) = h(g(x))$. По правилу цепочки для субдифференциалов, $\partial f(x) = h'(g(x)) \partial g(x) = e^{\|Ax-b\|_p} \partial \|Ax-b\|_p$. Субдифференциал нормы $\|u\|_p$ в точке $u \neq 0$ равен $\{v : \|v\|_q \le 1, \langle v, u \rangle = \|u\|_p\}$, где $1/p + 1/q = 1$. Если $Ax-b = 0$, то $\partial \|Ax-b\|_p = \{v : \|v\|_q \le 1\}$. Учитывая линейное отображение $A$, получаем указанный результат.
+	
+	\section*{Дополнительная часть}
+	
+	\subsection*{Задача 1}
+	Если $f$ — индикатор множества $B_{\|\cdot\|_p}(0,1)$, то
+	\[
+	\partial f(x)=
+	\begin{cases}
+		\{0\},&\|x\|_p<1,\\
+		\{g:\langle g,y-x\rangle\le0\ \forall y,\;\|y\|_p\le1\},&\|x\|_p=1,\\
+		\emptyset,&\|x\|_p>1.
+	\end{cases}
+	\]
+	\textit{Решение:}
+	Индикаторная функция $f(x) = 1$ если $\|x\|_p \le 1$ и $f(x) = 0$ если $\|x\|_p > 1$.
+	Если $\|x\|_p < 1$, то $f(x) = 1$. Для любого $y$, $f(y) \le 1$. Тогда $f(y) \ge f(x) + \langle g, y-x \rangle \implies 1 \ge 1 + \langle g, y-x \rangle \implies \langle g, y-x \rangle \le 0$. Это верно только при $g=0$.
+	Если $\|x\|_p > 1$, то $f(x) = 0$. Если существует $y$ с $\|y\|_p \le 1$, то $f(y) = 1$. Тогда $1 \ge 0 + \langle g, y-x \rangle \implies \langle g, y-x \rangle \le 1$. Это не дает полезной информации о $g$. Однако, если $\|x\|_p > 1$, то в окрестности $x$ функция равна 0, поэтому субдифференциал пуст.
+	Если $\|x\|_p = 1$, то $f(x) = 1$. Тогда $f(y) \ge 1 + \langle g, y-x \rangle$ для $\|y\|_p \le 1$. Так как $f(y) \le 1$, то $1 \ge 1 + \langle g, y-x \rangle$, то есть $\langle g, y-x \rangle \le 0$ для всех $y$ с $\|y\|_p \le 1$.
+	
+	\subsection*{Задача 2}
+	По определению сопряжённой функции $f^*(g)=\sup_x(\langle g,x\rangle-f(x))$ и неравенству Фенхеля–Якоби
+	\[
+	g\in\partial f(x)\iff f(x)+f^*(g)=\langle g,x\rangle.
+	\]
+	\textit{Решение:}
+	По определению субдифференциала, $g \in \partial f(x)$ означает, что $f(y) \ge f(x) + \langle g, y-x \rangle$ для всех $y \in S$. Это эквивалентно $\langle g, x \rangle - f(x) \ge \langle g, y \rangle - f(y)$ для всех $y \in S$. Беря супремум по $y \in S$ в правой части, получаем $\langle g, x \rangle - f(x) \ge \sup_{y \in S} (\langle g, y \rangle - f(y)) = f^*(g)$. Таким образом, $f(x) + f^*(g) \le \langle g, x \rangle$.
+	С другой стороны, по определению сопряженной функции, $f^*(g) \ge \langle g, x \rangle - f(x)$, что означает $f(x) + f^*(g) \ge \langle g, x \rangle$.
+	Сочетая оба неравенства, получаем $f(x) + f^*(g) = \langle g, x \rangle$.
+	
+	\subsection*{Задача 3}
+	Для функции максимального собственного значения на $S^d$
+	\[
+	\partial\lambda_{\max}(X)
+	=\operatorname{conv}\{\,vv^T:\;Xv=\lambda_{\max}(X)v,\;\|v\|=1\}.
+	\]
+	\textit{Решение:}
+	Максимальное собственное значение $\lambda_{\max}(X)$ может быть представлено как $\lambda_{\max}(X) = \max_{\|v\|=1} v^T X v$. Пусть $f_v(X) = v^T X v = \operatorname{Tr}(vv^T X)$. Тогда $\lambda_{\max}(X) = \max_{\|v\|=1} f_v(X)$. Субдифференциал функции $f_v(X)$ по $X$ равен $\{vv^T\}$. Используя формулу для субдифференциала поточечного максимума выпуклых функций, получаем $\partial \lambda_{\max}(X) = \operatorname{conv}\{vv^T : \|v\|=1, Xv = \lambda_{\max}(X)v\}$.
+	
+	\subsection*{Задача 4}
+	$\lambda_{\max}(X)$ дифференцируема тогда и только тогда, когда её максимальное собственное значение просто. В этом случае
+	\[
+	\nabla\lambda_{\max}(X)=vv^T,
+	\]
+	где $v$ — (единственный с точностью до знака) единичный собственный вектор, соответствующий $\lambda_{\max}(X)$.
+	\textit{Решение:}
+	Если максимальное собственное значение $\lambda_{\max}(X)$ простое, то существует единственный (с точностью до знака) единичный собственный вектор $v$, такой что $Xv = \lambda_{\max}(X)v$. В этом случае субдифференциал $\partial \lambda_{\max}(X) = \operatorname{conv}\{vv^T\} = \{vv^T\}$, поскольку $(-v)(-v)^T = vv^T$. Так как субдифференциал состоит из единственного элемента, функция $\lambda_{\max}(X)$ дифференцируема, и ее градиент равен этому элементу. Обратно, если $\lambda_{\max}(X)$ дифференцируема, ее субдифференциал состоит из единственного элемента, что означает, что существует только один (с точностью до знака) собственный вектор, соответствующий $\lambda_{\max}(X)$, то есть максимальное собственное значение является простым.
+\end{document}
