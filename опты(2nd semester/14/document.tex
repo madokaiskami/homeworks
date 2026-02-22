@@ -1,0 +1,182 @@
+% -*- latex -*-
+\documentclass[12pt]{article}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{amsmath,amsfonts,amssymb,amsthm}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+
+% Операторы:
+\DeclareMathOperator{\tr}{tr}
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\Image}{Im}
+\DeclareMathOperator{\sgn}{sgn}
+
+\title{}
+\author{}
+\date{}
+
+\begin{document}
+	\maketitle
+	
+	\section*{Основная часть}
+	
+	\subsection*{Задача 1}
+	Рассмотрим задачу жёсткого SVM с мягкими штрафами:
+	\begin{align*}
+		&\min_{\theta,\theta_0,\;\xi}\;\; \frac{1}{2}\|\theta\|_2^2 + \rho\sum_{i=1}^n \xi_i,\\
+		&\text{при условиях}\quad
+		\xi_i \ge 0,\quad
+		y_i\bigl(x_i^\top\theta + \theta_0\bigr)\ge1 - \xi_i,\quad i=1,\dots,n.
+	\end{align*}
+	
+	\paragraph{Лагранжиан.}
+	Введём множители Лагранжа $\lambda_i\ge0$ для ограничений 
+	$y_i(x_i^\top\theta+\theta_0)\ge1-\xi_i$
+	и $\mu_i\ge0$ для ограничений $\xi_i\ge0$. Тогда
+	\[
+	\mathcal{L}(\theta,\theta_0,\xi;\lambda,\mu)
+	= \frac12\|\theta\|^2 + \rho\sum_{i=1}^n\xi_i
+	- \sum_{i=1}^n\lambda_i\bigl[y_i(x_i^\top\theta+\theta_0)-(1-\xi_i)\bigr]
+	- \sum_{i=1}^n\mu_i\,\xi_i.
+	\]
+	
+	\paragraph{Условия ККТ.}
+	\begin{enumerate}
+		\item Станционарность по $\theta$:
+		\[
+		\frac{\partial\mathcal{L}}{\partial\theta}
+		= \theta - \sum_{i=1}^n \lambda_i y_i x_i = 0
+		\quad\Longrightarrow\quad
+		\theta = \sum_{i=1}^n \lambda_i y_i x_i.
+		\]
+		\item Станционарность по $\theta_0$:
+		\[
+		\frac{\partial\mathcal{L}}{\partial\theta_0}
+		= -\sum_{i=1}^n \lambda_i y_i = 0
+		\quad\Longrightarrow\quad
+		\sum_{i=1}^n \lambda_i y_i = 0.
+		\]
+		\item Станционарность по $\xi_i$:
+		\[
+		\frac{\partial\mathcal{L}}{\partial\xi_i}
+		= \rho - \lambda_i - \mu_i = 0
+		\quad\Longrightarrow\quad
+		\lambda_i + \mu_i = \rho,\quad i=1,\dots,n.
+		\]
+		\item Комплементарная нежёсткость:
+		\[
+		\lambda_i\bigl[y_i(x_i^\top\theta+\theta_0)-(1-\xi_i)\bigr]=0,
+		\quad
+		\mu_i\,\xi_i=0,
+		\quad i=1,\dots,n.
+		\]
+		\item Примальность:
+		\[
+		\xi_i\ge0,\quad
+		y_i(x_i^\top\theta+\theta_0)\ge1-\xi_i,\quad
+		\lambda_i\ge0,\;\mu_i\ge0.
+		\]
+	\end{enumerate}
+	
+	\paragraph{Двойственная задача.}
+	Используя $\theta=\sum_i\lambda_i y_i x_i$ и исключая $\mu_i$, получаем
+	\[
+	\max_{\substack{\lambda\ge0\\\sum_i\lambda_i y_i=0}}
+	\;\;
+	\sum_{i=1}^n\lambda_i
+	-\frac12\sum_{i,j=1}^n\lambda_i\lambda_j y_i y_j\,x_i^\top x_j,
+	\quad
+	\text{при дополнительных условиях}\;\lambda_i\le\rho.
+	\]
+	Отсюда видно, что только те $\lambda_i>0$, для которых
+	$y_i(x_i^\top\theta+\theta_0)=1-\xi_i$ (опорные векторы) влияют на
+	решение. Если $\lambda_i=0$, соответствующая точка не меняет
+	$\theta$ и может быть отброшена без изменения оптимума.
+	
+	\bigskip
+	\textbf{Вывод:} 
+	\[
+	\theta^* = \sum_{i:\,\lambda_i^*>0} \lambda_i^* y_i x_i,
+	\]
+	и решение не изменится, если оставить только опорные векторы,
+	для которых $y_i(x_i^\top\theta^*+\theta_0^*)=1-\xi_i^*$.
+	
+	\subsection*{Задача 2}
+	Пусть $f:\mathbb R^n\to\mathbb R$ --- сильно выпуклая
+	дифференцируемая, а матрица $A\in\mathbb R^{n\times d}$ имеет полный
+	ранг $\rank A = \min(n,d)$. Рассмотрим задачу
+	\[
+	\min_{x\in\mathbb R^d}\;\bigl[f(Ax)+\|x\|_1\bigr].
+	\]
+	
+	\paragraph{Единственность.}
+	Поскольку $f$ строго выпуклая, композиция $x\mapsto f(Ax)$ остаётся
+	строго выпуклой (линейный оператор $A$ сохраняет строгую выпуклость
+	на подпространстве). Сумма строго выпуклой функции и выпуклой
+	$\|x\|_1$ даёт строго выпуклый объект, следовательно минимум
+	единственен.
+	
+	\paragraph{Оценка числа ненулевых компонент.}
+	Из условий первого порядка:
+	\[
+	0\in A^\top\nabla f(Ax^*) + \partial\|x^*\|_1.
+	\]
+	Поскольку
+	$\partial\|x^*\|_1\subseteq\{v\colon v_i=\sgn(x^*_i)\text{ или }v_i\in[-1,1]\}$,
+	и вектор $A^\top\nabla f(Ax^*)$ лежит в образе $A^\top$,
+	$\dim\Image(A^\top)=\rank A=\min(n,d)$, число ненулевых компонент
+	$x^*$ не может превышать $\min(n,d)$.
+	
+	\section*{Дополнительная часть}
+	
+	\subsection*{Задача 1}
+	Рассмотрим задачу на множестве положительно определённых матриц:
+	\[
+	\min_{X\in\mathbb S_n^{++}}\;\bigl[\tr X - \log\det X\bigr],
+	\quad
+	\text{при условии}\quad Xs = y,
+	\quad \langle s,y\rangle = 1.
+	\]
+	
+	\paragraph{Строгая выпуклость.}
+	Функция $X\mapsto\tr X$ линейна, а $X\mapsto -\log\det X$ строго
+	выпукла на $\mathbb S_n^{++}$. Их сумма строго выпуклая, значит
+	минимум единственен.
+	
+	\paragraph{Условия ККТ.}
+	Введём множитель $\lambda\in\mathbb R^n$ для векторного ограничения
+	$Xs=y$. Лагранжиан:
+	\[
+	\mathcal L(X,\lambda)
+	= \tr X - \log\det X + \lambda^\top(Xs - y).
+	\]
+	Станционарность по $X$:
+	\[
+	I - X^{-1} + \lambda\,s^\top = 0
+	\quad\Longrightarrow\quad
+	X^{-1} = I + \lambda\,s^\top.
+	\]
+	Так как $X^{-1}$ симметрична, должно быть
+	$\lambda\,s^\top = s\,\lambda^\top$, то есть
+	$\lambda = \alpha\,s$ для некоторого $\alpha\in\mathbb R$. Тогда
+	\[
+	X^{-1} = I + \alpha\,ss^\top,
+	\quad
+	X = (I + \alpha\,ss^\top)^{-1}.
+	\]
+	По формуле Шермана—Морриса—Вудбери:
+	\[
+	X = I - \frac{\alpha\,ss^\top}{1 + \alpha\,s^\top s}.
+	\]
+	Учтя условие $Xs=y$ и $\langle s,y\rangle=1$, находим $\alpha$ и
+	получаем явное решение:
+	\[
+	\boxed{%
+		X^* = I + \frac{y\,y^\top - s\,s^\top}{s^\top s}.
+	}
+	\]
+	Это единственное решение, удовлетворящее условиям ККТ.
+	
+\end{document}
